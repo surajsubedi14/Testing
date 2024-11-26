@@ -1,8 +1,5 @@
 package com.suraj.service;
 
-import static org.mockito.Mockito.*;
-import static org.junit.jupiter.api.Assertions.*;
-
 import com.suraj.modal.OrderItem;
 import com.suraj.repository.OrderItemRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,6 +7,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+
+import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 class OrderItemServiceImplementationTest {
 
@@ -29,8 +29,7 @@ class OrderItemServiceImplementationTest {
         // Arrange
         OrderItem orderItem = new OrderItem();
         orderItem.setId(1L);
-//        orderItem.setName("Sample Item");
-        orderItem.setPrice(100);
+        orderItem.setPrice(100); // Add other properties as necessary
 
         when(orderItemRepository.save(orderItem)).thenReturn(orderItem);
 
@@ -40,9 +39,21 @@ class OrderItemServiceImplementationTest {
         // Assert
         assertNotNull(savedOrderItem);
         assertEquals(1L, savedOrderItem.getId());
-//        assertEquals("Sample Item", savedOrderItem.getName());
         assertEquals(100, savedOrderItem.getPrice());
 
         verify(orderItemRepository, times(1)).save(orderItem);
+    }
+
+    @Test
+    void createOrderItem_NullOrderItem_ThrowsException() {
+        // Arrange
+        OrderItem nullOrderItem = null;
+
+        // Act & Assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            orderItemService.createOrderItem(nullOrderItem);
+        });
+
+        verify(orderItemRepository, never()).save(any());
     }
 }

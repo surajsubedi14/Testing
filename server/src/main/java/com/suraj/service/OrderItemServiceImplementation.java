@@ -14,6 +14,9 @@ public class OrderItemServiceImplementation implements OrderItemService {
 	}
 	@Override
 	public OrderItem createOrderItem(OrderItem orderItem) {
+		if (orderItem == null) {
+			throw new IllegalArgumentException("OrderItem cannot be null");
+		}
 		
 		return orderItemRepository.save(orderItem);
 	}

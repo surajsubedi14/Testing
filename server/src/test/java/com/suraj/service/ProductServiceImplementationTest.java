@@ -3,6 +3,7 @@ package com.suraj.service;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 import java.time.LocalDateTime;
@@ -60,15 +61,13 @@ public class ProductServiceImplementationTest {
         product.setImageUrl("imageUrl");
         product.setBrand("Brand1");
         product.setPrice(100);
-//        product.setSizes(Arrays.asList("M", "L"));
         product.setQuantity(10);
         product.setCategory(category);
         product.setCreatedAt(LocalDateTime.now());
     }
 
-
     @Test
-    void testDeleteProduct() throws ProductException {
+    void shouldDeleteProduct() throws ProductException {
         when(productRepository.findById(anyLong())).thenReturn(Optional.of(product));
 
         String result = productService.deleteProduct(1L);
@@ -78,7 +77,7 @@ public class ProductServiceImplementationTest {
     }
 
     @Test
-    void testUpdateProduct() throws ProductException {
+    void shouldUpdateProduct() throws ProductException {
         when(productRepository.findById(anyLong())).thenReturn(Optional.of(product));
         when(productRepository.save(any(Product.class))).thenReturn(product);
 
@@ -95,7 +94,7 @@ public class ProductServiceImplementationTest {
     }
 
     @Test
-    void testGetAllProducts() {
+    void shouldGetAllProducts() {
         List<Product> productList = Arrays.asList(product);
         when(productRepository.findAll()).thenReturn(productList);
 
@@ -108,7 +107,7 @@ public class ProductServiceImplementationTest {
     }
 
     @Test
-    void testFindProductById() throws ProductException {
+    void shouldFindProductById() throws ProductException {
         when(productRepository.findById(anyLong())).thenReturn(Optional.of(product));
 
         Product result = productService.findProductById(1L);
@@ -119,7 +118,19 @@ public class ProductServiceImplementationTest {
     }
 
     @Test
-    void testFindProductByCategory() {
+    void shouldThrowExceptionWhenProductNotFound() {
+        when(productRepository.findById(anyLong())).thenReturn(Optional.empty());
+
+        ProductException exception = assertThrows(ProductException.class, () -> {
+            productService.findProductById(1L);
+        });
+
+        assertEquals("product not found with id 1", exception.getMessage());
+        verify(productRepository, times(1)).findById(anyLong());
+    }
+
+    @Test
+    void shouldFindProductsByCategory() {
         List<Product> productList = Arrays.asList(product);
         when(productRepository.findByCategory(anyString())).thenReturn(productList);
 
@@ -132,7 +143,7 @@ public class ProductServiceImplementationTest {
     }
 
     @Test
-    void testSearchProduct() {
+    void shouldSearchProducts() {
         List<Product> productList = Arrays.asList(product);
         when(productRepository.searchProduct(anyString())).thenReturn(productList);
 
@@ -145,14 +156,15 @@ public class ProductServiceImplementationTest {
     }
 
     @Test
-    void testGetAllProduct() {
+    void shouldFilterProductsWithPagination() {
         List<Product> productList = Arrays.asList(product);
         when(productRepository.filterProducts(anyString(), anyInt(), anyInt(), anyInt(), anyString())).thenReturn(productList);
 
         Pageable pageable = PageRequest.of(0, 10);
         Page<Product> productPage = new PageImpl<>(productList, pageable, productList.size());
 
-        Page<Product> result = productService.getAllProduct("Category1", Arrays.asList("Red"), Arrays.asList("M"), 0, 200, 10, "asc", "in_stock", 0, 10);
+        Page<Product> result = productService.getAllProduct(
+                "Category1", Arrays.asList("Red"), Arrays.asList("M"), 0, 200, 10, "asc", "in_stock", 0, 10);
 
         assertNotNull(result);
         assertEquals(1, result.getTotalElements());
@@ -161,7 +173,7 @@ public class ProductServiceImplementationTest {
     }
 
     @Test
-    void testRecentlyAddedProduct() {
+    void shouldReturnRecentlyAddedProducts() {
         List<Product> productList = Arrays.asList(product);
         when(productRepository.findTop10ByOrderByCreatedAtDesc()).thenReturn(productList);
 

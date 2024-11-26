@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import com.suraj.modal.User;
@@ -37,11 +38,12 @@ class CustomUserDetailsTest {
         when(userRepository.findByEmail(email)).thenReturn(mockUser);
 
         // Act
-        var userDetails = customUserDetails.loadUserByUsername(email);
+        UserDetails userDetails = customUserDetails.loadUserByUsername(email);
 
         // Assert
-        assertNotNull(userDetails);
-        assertEquals(email, userDetails.getUsername());
+        assertNotNull(userDetails, "UserDetails should not be null");
+        assertEquals(email, userDetails.getUsername(), "Email should match the input username");
+        assertEquals(mockUser.getPassword(), userDetails.getPassword(), "Password should match the user's password");
         verify(userRepository, times(1)).findByEmail(email);
     }
 
@@ -49,12 +51,15 @@ class CustomUserDetailsTest {
     void loadUserByUsername_UserDoesNotExist_ThrowsException() {
         // Arrange
         String email = "notfound@example.com";
+
         when(userRepository.findByEmail(email)).thenReturn(null);
 
         // Act & Assert
-        assertThrows(UsernameNotFoundException.class, () -> {
+        UsernameNotFoundException exception = assertThrows(UsernameNotFoundException.class, () -> {
             customUserDetails.loadUserByUsername(email);
         });
+
+        assertEquals("user not found with email " + email, exception.getMessage());
         verify(userRepository, times(1)).findByEmail(email);
     }
 }

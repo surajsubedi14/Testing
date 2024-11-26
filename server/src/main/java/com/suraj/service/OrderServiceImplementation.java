@@ -87,8 +87,10 @@ public class OrderServiceImplementation implements OrderService {
 		Order savedOrder=orderRepository.save(createdOrder);
 		
 		for(OrderItem item:orderItems) {
-			item.setOrder(savedOrder);
-			orderItemRepository.save(item);
+			if (item != null) {
+				item.setOrder(savedOrder);
+				orderItemRepository.save(item);
+			}
 		}
 		
 		return savedOrder;
@@ -105,10 +107,8 @@ public class OrderServiceImplementation implements OrderService {
 
 	@Override
 	public Order confirmedOrder(Long orderId) throws OrderException {
-		Order order=findOrderById(orderId);
+		Order order = findOrderById(orderId); // Ensure this returns a valid order
 		order.setOrderStatus(OrderStatus.CONFIRMED);
-		
-		
 		return orderRepository.save(order);
 	}
 
