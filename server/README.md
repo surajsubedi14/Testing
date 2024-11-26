@@ -2,15 +2,10 @@
 
 This Git repository contains the Java Spring Boot source code for an e-commerce backend system with a RESTful API for browsing products, adding to cart, placing orders, and checking out. Built with a modular MVC architecture and backed by MySQL, it includes unit tests and documentation.
 
-**Base URL**:-  [Api Link](https://e-commerce-server-production-0873.up.railway.app)
-
 ## Api Docs
 
 
 Welcome to the documentation for the Ecommerce Project API! This API provides a set of endpoints and functionalities to interact with our eCommerce platform programmatically. With this API, you can build applications, integrations, and automate various tasks related to our online store.
-
-**Api Docs**:-  [Api Docs Link](https://e-commerce-server-production-0873.up.railway.app/swagger-ui/index.html)
-
 ## Authentication
 
 All protected endpoints require the `Authorization` header with a valid token.
@@ -106,13 +101,6 @@ All protected endpoints require the `Authorization` header with a valid token.
   - URL: `http://localhost:5454`
   - Description: Generated server URL
 
-## Contact
-
-For any queries or issues, please contact **Ashok Zarmariya** at `ashokzarmariya@gmail.com`.
-
-## License
-
-This API is licensed under **Ashok Zarmariya**.
 
 
 
