@@ -1,0 +1,208 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > CartItemServiceImplementation</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.suraj.service</a>
+</div>
+
+<h1>Coverage Summary for Class: CartItemServiceImplementation (com.suraj.service)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CartItemServiceImplementation</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    83.3%
+  </span>
+  <span class="absValue">
+    (5/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    86.2%
+  </span>
+  <span class="absValue">
+    (25/29)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.suraj.service;
+&nbsp;
+&nbsp;import java.util.Optional;
+&nbsp;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;
+&nbsp;import com.suraj.exception.CartItemException;
+&nbsp;import com.suraj.exception.UserException;
+&nbsp;import com.suraj.modal.Cart;
+&nbsp;import com.suraj.modal.CartItem;
+&nbsp;import com.suraj.modal.Product;
+&nbsp;import com.suraj.modal.User;
+&nbsp;import com.suraj.repository.CartItemRepository;
+&nbsp;import com.suraj.repository.CartRepository;
+&nbsp;
+&nbsp;
+&nbsp;@Service
+&nbsp;public class CartItemServiceImplementation implements CartItemService {
+&nbsp;	
+&nbsp;	private CartItemRepository cartItemRepository;
+&nbsp;	private UserService userService;
+&nbsp;	private CartRepository cartRepository;
+&nbsp;	
+<b class="fc">&nbsp;	public CartItemServiceImplementation(CartItemRepository cartItemRepository,UserService userService) {</b>
+<b class="fc">&nbsp;		this.cartItemRepository=cartItemRepository;</b>
+<b class="fc">&nbsp;		this.userService=userService;</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	@Override
+&nbsp;	public CartItem createCartItem(CartItem cartItem) {
+&nbsp;		
+<b class="fc">&nbsp;		cartItem.setQuantity(1);</b>
+<b class="fc">&nbsp;		cartItem.setPrice(cartItem.getProduct().getPrice()*cartItem.getQuantity());</b>
+<b class="fc">&nbsp;		cartItem.setDiscountedPrice(cartItem.getProduct().getDiscountedPrice()*cartItem.getQuantity());</b>
+&nbsp;		
+<b class="fc">&nbsp;		CartItem createdCartItem=cartItemRepository.save(cartItem);</b>
+&nbsp;		
+<b class="fc">&nbsp;		return createdCartItem;</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	@Override
+&nbsp;	public CartItem updateCartItem(Long userId, Long id, CartItem cartItem) throws CartItemException, UserException {
+&nbsp;		
+<b class="fc">&nbsp;		CartItem item=findCartItemById(id);</b>
+<b class="fc">&nbsp;		User user=userService.findUserById(item.getUserId());</b>
+&nbsp;		
+&nbsp;		
+<b class="fc">&nbsp;		if(user.getId().equals(userId)) {</b>
+&nbsp;			
+<b class="fc">&nbsp;			item.setQuantity(cartItem.getQuantity());</b>
+<b class="fc">&nbsp;			item.setPrice(item.getQuantity()*item.getProduct().getPrice());</b>
+<b class="fc">&nbsp;			item.setDiscountedPrice(item.getQuantity()*item.getProduct().getDiscountedPrice());</b>
+&nbsp;			
+<b class="fc">&nbsp;			return cartItemRepository.save(item);</b>
+&nbsp;				
+&nbsp;			
+&nbsp;		}
+&nbsp;		else {
+<b class="nc">&nbsp;			throw new CartItemException(&quot;You can&#39;t update  another users cart_item&quot;);</b>
+&nbsp;		}
+&nbsp;		
+&nbsp;	}
+&nbsp;
+&nbsp;	@Override
+&nbsp;	public CartItem isCartItemExist(Cart cart, Product product, String size, Long userId) {
+&nbsp;		
+<b class="nc">&nbsp;		CartItem cartItem=cartItemRepository.isCartItemExist(cart, product, size, userId);</b>
+&nbsp;		
+<b class="nc">&nbsp;		return cartItem;</b>
+&nbsp;	}
+&nbsp;	
+&nbsp;	
+&nbsp;
+&nbsp;	@Override
+&nbsp;	public void removeCartItem(Long userId,Long cartItemId) throws CartItemException, UserException {
+&nbsp;		
+<b class="fc">&nbsp;		System.out.println(&quot;userId- &quot;+userId+&quot; cartItemId &quot;+cartItemId);</b>
+&nbsp;		
+<b class="fc">&nbsp;		CartItem cartItem=findCartItemById(cartItemId);</b>
+&nbsp;		
+<b class="fc">&nbsp;		User user=userService.findUserById(cartItem.getUserId());</b>
+<b class="fc">&nbsp;		User reqUser=userService.findUserById(userId);</b>
+&nbsp;		
+<b class="fc">&nbsp;		if(user.getId().equals(reqUser.getId())) {</b>
+<b class="fc">&nbsp;			cartItemRepository.deleteById(cartItem.getId());</b>
+&nbsp;		}
+&nbsp;		else {
+<b class="nc">&nbsp;			throw new UserException(&quot;you can&#39;t remove anothor users item&quot;);</b>
+&nbsp;		}
+&nbsp;		
+&nbsp;	}
+&nbsp;
+&nbsp;	@Override
+&nbsp;	public CartItem findCartItemById(Long cartItemId) throws CartItemException {
+<b class="fc">&nbsp;		Optional&lt;CartItem&gt; opt=cartItemRepository.findById(cartItemId);</b>
+&nbsp;		
+<b class="fc">&nbsp;		if(opt.isPresent()) {</b>
+<b class="fc">&nbsp;			return opt.get();</b>
+&nbsp;		}
+<b class="fc">&nbsp;		throw new CartItemException(&quot;cartItem not found with id : &quot;+cartItemId);</b>
+&nbsp;	}
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-11-26 15:09</div>
+</div>
+</body>
+</html>

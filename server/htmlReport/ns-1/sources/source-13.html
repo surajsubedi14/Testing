@@ -1,0 +1,100 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > OrderService</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.suraj.service</a>
+</div>
+
+<h1>Coverage Summary for Class: OrderService (com.suraj.service)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">OrderService</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.suraj.service;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;import com.suraj.exception.OrderException;
+&nbsp;import com.suraj.modal.Address;
+&nbsp;import com.suraj.modal.Order;
+&nbsp;import com.suraj.modal.User;
+&nbsp;
+&nbsp;public interface OrderService {
+&nbsp;	
+&nbsp;	public Order createOrder(User user, Address shippingAdress);
+&nbsp;	
+&nbsp;	public Order findOrderById(Long orderId) throws OrderException;
+&nbsp;	
+&nbsp;	public List&lt;Order&gt; usersOrderHistory(Long userId);
+&nbsp;	
+&nbsp;	public Order placedOrder(Long orderId) throws OrderException;
+&nbsp;	
+&nbsp;	public Order confirmedOrder(Long orderId)throws OrderException;
+&nbsp;	
+&nbsp;	public Order shippedOrder(Long orderId) throws OrderException;
+&nbsp;	
+&nbsp;	public Order deliveredOrder(Long orderId) throws OrderException;
+&nbsp;	
+&nbsp;	public Order cancledOrder(Long orderId) throws OrderException;
+&nbsp;	
+&nbsp;	public List&lt;Order&gt;getAllOrders();
+&nbsp;	
+&nbsp;	public void deleteOrder(Long orderId) throws OrderException;
+&nbsp;	
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-11-26 15:09</div>
+</div>
+</body>
+</html>
