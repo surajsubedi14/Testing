@@ -34,11 +34,13 @@ public class Category {
 	public Category() {
 		// TODO Auto-generated constructor stub
 	}
-	
-
-	
 
 
+
+
+	public Category(String name) {
+		this.name = name;
+	}
 	public int getLevel() {
 		return level;
 	}

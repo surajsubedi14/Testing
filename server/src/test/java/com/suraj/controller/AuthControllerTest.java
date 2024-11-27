@@ -125,7 +125,7 @@ class AuthControllerTest {
         loginRequest.setEmail("test@example.com");
         loginRequest.setPassword("wrongpassword");
 
-        // when(customUserDetails.loadUserByUsername("test@example.com")).thenReturn(mockUser);
+//         when(customUserDetails.loadUserByUsername("test@example.com")).thenReturn(mockUser);
         when(passwordEncoder.matches("wrongpassword", mockUser.getPassword())).thenReturn(false);
 
         // Act & Assert

@@ -58,6 +58,12 @@ public class Address {
 		this.user = user;
 		this.mobile = mobile;
 	}
+	public Address(String streetAddress, String city, String state, String zipCode) {
+		this.streetAddress = streetAddress;
+		this.city = city;
+		this.state = state;
+		this.zipCode = zipCode;
+	}
 
 
 	public String getFirstName() {
