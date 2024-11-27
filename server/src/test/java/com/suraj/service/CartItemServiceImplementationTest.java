@@ -26,7 +26,7 @@ import com.suraj.repository.CartRepository;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 
-@MockitoSettings(strictness = Strictness.LENIENT)
+//@MockitoSettings(strictness = Strictness.LENIENT)
 
 @ExtendWith(MockitoExtension.class)
 public class CartItemServiceImplementationTest {
