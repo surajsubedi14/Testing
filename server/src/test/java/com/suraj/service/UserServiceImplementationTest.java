@@ -81,12 +81,12 @@ class UserServiceImplementationTest {
         // Create a list of users
         User user1 = new User();
         user1.setId(1L);
-        user1.setEmail("user1@example.com");
+        user1.setEmail("rushi.kothari@iiitb.ac.in");
         //user1.setName("User One");
 
         User user2 = new User();
         user2.setId(2L);
-        user2.setEmail("user2@example.com");
+        user2.setEmail("suraj.subedi@iiitb.ac.in");
         //user2.setName("User Two");
 
         List<User> users = Arrays.asList(user1, user2);

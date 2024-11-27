@@ -39,7 +39,7 @@ class RatingServiceImplementationTest {
         productId = 1L;
         testUser = new User();
         testUser.setId(1L);
-        testUser.setEmail("testuser@example.com");
+        testUser.setEmail("rushi.kothari@iiitb.ac.in");
         //testUser.setName("Test User");
 
         testProduct = new Product();

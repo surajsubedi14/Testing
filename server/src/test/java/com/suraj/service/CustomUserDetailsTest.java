@@ -30,7 +30,7 @@ class CustomUserDetailsTest {
     @Test
     void loadUserByUsername_UserExists_ReturnsUserDetails() {
         // Arrange
-        String email = "test@example.com";
+        String email = "rushi.kothari@iiitb.ac.in";
         User mockUser = new User();
         mockUser.setEmail(email);
         mockUser.setPassword("password123");
@@ -50,7 +50,7 @@ class CustomUserDetailsTest {
     @Test
     void loadUserByUsername_UserDoesNotExist_ThrowsException() {
         // Arrange
-        String email = "notfound@example.com";
+        String email = "suraj.subedi@iiitb.ac.in";
 
         when(userRepository.findByEmail(email)).thenReturn(null);
 

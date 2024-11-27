@@ -40,7 +40,7 @@ class RatingControllerTest {
         user.setId(1L);
         user.setFirstName("Test");
         user.setLastName("User");
-        user.setEmail("testuser@example.com");
+        user.setEmail("rushi.kothari@iiitb.ac.in");
 
         ratingRequest = new RatingRequest();
         ratingRequest.setProductId(1L);

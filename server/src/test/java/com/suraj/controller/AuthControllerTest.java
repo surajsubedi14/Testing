@@ -49,10 +49,10 @@ class AuthControllerTest {
         MockitoAnnotations.openMocks(this);
 
         mockUser = new User();
-        mockUser.setEmail("test@example.com");
+        mockUser.setEmail("rushi.kothari@iiitb.ac.in");
         mockUser.setPassword("password");
-        mockUser.setFirstName("Test");
-        mockUser.setLastName("User");
+        mockUser.setFirstName("rushi");
+        mockUser.setLastName("kothari");
         mockUser.setRole("USER");
     }
 
@@ -60,13 +60,13 @@ class AuthControllerTest {
     void createUserHandler() throws UserException {
         // Arrange
         User newUser = new User();
-        newUser.setEmail("test@example.com");
+        newUser.setEmail("rushi.kothari@iiitb.ac.in");
         newUser.setPassword("password");
-        newUser.setFirstName("Test");
-        newUser.setLastName("User");
+        newUser.setFirstName("rushi");
+        newUser.setLastName("kothari");
         newUser.setRole("USER");
 
-        when(userRepository.findByEmail("test@example.com")).thenReturn(null);  // Simulate no existing user
+        when(userRepository.findByEmail("rushi.kothari@iiitb.ac.in")).thenReturn(null);  // Simulate no existing user
         when(userRepository.save(any(User.class))).thenReturn(mockUser);
         when(jwtTokenProvider.generateToken(any(Authentication.class))).thenReturn("mocked-token");
 
@@ -77,7 +77,7 @@ class AuthControllerTest {
         assertNotNull(response);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals("mocked-token", response.getBody().getJwt());
-        verify(userRepository, times(1)).findByEmail("test@example.com");
+        verify(userRepository, times(1)).findByEmail("rushi.kothari@iiitb.ac.in");
         verify(userRepository, times(1)).save(any(User.class));
         verify(cartService, times(1)).createCart(mockUser);
     }
@@ -85,7 +85,7 @@ class AuthControllerTest {
     @Test
     void createUserHandler_EmailAlreadyExists() throws UserException {
         // Arrange
-        when(userRepository.findByEmail("test@example.com")).thenReturn(mockUser);  // Simulate existing user
+        when(userRepository.findByEmail("rushi.kothari@iiitb.ac.in")).thenReturn(mockUser);  // Simulate existing user
 
         // Act & Assert
         UserException exception = assertThrows(UserException.class, () -> {
@@ -98,11 +98,11 @@ class AuthControllerTest {
     void signin() {
         // Arrange
         LoginRequest loginRequest = new LoginRequest();
-        loginRequest.setEmail("test@example.com");
+        loginRequest.setEmail("rushi.kothari@iiitb.ac.in");
         loginRequest.setPassword("password");
 
         User mockUser = new User();
-        mockUser.setEmail("test@example.com");
+        mockUser.setEmail("rushi.kothari@iiitb.ac.in");
         mockUser.setPassword(passwordEncoder.encode("password"));
 
 //        when(customUserDetails.loadUserByUsername("test@example.com")).thenReturn(mockUser);
@@ -122,7 +122,7 @@ class AuthControllerTest {
     void signin_InvalidCredentials() {
         // Arrange
         LoginRequest loginRequest = new LoginRequest();
-        loginRequest.setEmail("test@example.com");
+        loginRequest.setEmail("rushi.kothari@iiitb.ac.in");
         loginRequest.setPassword("wrongpassword");
 
 //         when(customUserDetails.loadUserByUsername("test@example.com")).thenReturn(mockUser);

@@ -34,7 +34,7 @@ class DataInitializationComponentTest {
     @Test
     void run_AdminUserAlreadyExists_DoesNotCreateAdmin() {
         // Arrange
-        String adminEmail = "codewithzosh@gmail.com";
+        String adminEmail = "suraj.subedi@iiitb.ac.in";
         when(userRepository.findByEmail(adminEmail)).thenReturn(new User());
 
         // Act
@@ -49,12 +49,12 @@ class DataInitializationComponentTest {
     @Test
     void run_AdminUserDoesNotExist_CreatesAdmin() {
         // Arrange
-        String adminEmail = "codewithzosh@gmail.com";
+        String adminEmail = "suraj.subedi@iiitb.ac.in";
         User savedUser = new User();
         savedUser.setEmail(adminEmail);
 
         when(userRepository.findByEmail(adminEmail)).thenReturn(null);
-        when(passwordEncoder.encode("codewithzosh")).thenReturn("encodedPassword");
+        when(passwordEncoder.encode("suraj")).thenReturn("encodedPassword");
         when(userRepository.save(any(User.class))).thenReturn(savedUser);
 
         // Act
@@ -62,7 +62,7 @@ class DataInitializationComponentTest {
 
         // Assert
         verify(userRepository, times(1)).findByEmail(adminEmail);
-        verify(passwordEncoder, times(1)).encode("codewithzosh");
+        verify(passwordEncoder, times(1)).encode("suraj");
         verify(userRepository, times(1)).save(any(User.class));
         verify(cartService, times(1)).createCart(savedUser);
     }

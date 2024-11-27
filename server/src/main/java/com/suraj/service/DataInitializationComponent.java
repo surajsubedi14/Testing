@@ -31,14 +31,14 @@ public class DataInitializationComponent implements CommandLineRunner {
     }
 
     private void initializeAdminUser() {
-        String adminUsername = "codewithzosh@gmail.com";
+        String adminUsername = "suraj.subedi@iiitb.ac.in";
 
         if (userRepository.findByEmail(adminUsername)==null) {
             User adminUser = new User();
 
-            adminUser.setPassword(passwordEncoder.encode("codewithzosh"));
-            adminUser.setFirstName("zosh");
-            adminUser.setLastName("code");
+            adminUser.setPassword(passwordEncoder.encode("suraj"));
+            adminUser.setFirstName("suraj");
+            adminUser.setLastName("subedi");
             adminUser.setEmail(adminUsername);
             adminUser.setRole(UserRole.ROLE_ADMIN.toString());
 

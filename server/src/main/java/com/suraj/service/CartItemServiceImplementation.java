@@ -73,23 +73,24 @@ public class CartItemServiceImplementation implements CartItemService {
 	
 
 	@Override
-	public void removeCartItem(Long userId,Long cartItemId) throws CartItemException, UserException {
-		
-		System.out.println("userId- "+userId+" cartItemId "+cartItemId);
-		
-		CartItem cartItem=findCartItemById(cartItemId);
-		
-		User user=userService.findUserById(cartItem.getUserId());
-		User reqUser=userService.findUserById(userId);
-		
-		if(user.getId().equals(reqUser.getId())) {
+	public void removeCartItem(Long userId, Long cartItemId) throws CartItemException, UserException {
+		if (userId == null) {
+			throw new UserException("User is null");
+		}
+
+		CartItem cartItem = cartItemRepository.findById(cartItemId)
+				.orElseThrow(() -> new CartItemException("Cart item not found"));
+
+		User user = userService.findUserById(cartItem.getUserId());
+		User reqUser = userService.findUserById(userId);
+
+		if (user.getId().equals(reqUser.getId())) {
 			cartItemRepository.deleteById(cartItem.getId());
+		} else {
+			throw new UserException("you can't remove another users item");
 		}
-		else {
-			throw new UserException("you can't remove anothor users item");
-		}
-		
 	}
+
 
 	@Override
 	public CartItem findCartItemById(Long cartItemId) throws CartItemException {
